@@ -1,75 +1,79 @@
-# CMS Monitoring Project
+# CMS Monitoring Project (Firebase Version)
 
 ## Deskripsi
-Project ini adalah aplikasi monitoring project berbasis web menggunakan PHP dan MySQL. Anda dapat menambah, mengedit, dan menghapus data project melalui antarmuka web.
+Project ini adalah aplikasi monitoring berbasis web yang menggunakan **Firebase Realtime Database** sebagai backend, dan HTML/JavaScript untuk frontend. Anda dapat menambah, mengedit, dan menghapus data project secara realtime tanpa PHP atau MySQL.
 
 ## Fitur
-- Tambah project
-- Edit project
-- Hapus project
-- List project
+- Menampilkan daftar project secara realtime
+- Tambah data project
+- Edit data project
+- Hapus data project
+- Tersimpan langsung ke Firebase Realtime Database
 
-## Cara Menjalankan Tanpa XAMPP
+## Teknologi yang Digunakan
+- **Frontend:** HTML, CSS, JavaScript (Vanilla)
+- **Database:** Firebase Realtime Database
+- **Library Tambahan:** SweetAlert2 (untuk notifikasi)
 
-### 1. Persyaratan
-- PHP (disarankan versi 7.4 atau lebih baru)
-- MySQL/MariaDB
-- Web browser
+## Cara Menjalankan
 
-### 2. Instalasi di Mac/Linux
-
-#### a. Install PHP dan MySQL
-**Mac (menggunakan Homebrew):**
+### 1. Clone Repository
 ```bash
-brew install php
-brew install mysql
-brew services start mysql
-```
+git clone https://github.com/Rayhan-123-alt/CMSMonitoring.git
+cd CMSMonitoring
+2. Siapkan Firebase Project
+Buat project di Firebase Console
 
-**Linux (Debian/Ubuntu/Armbian):**
-```bash
-sudo apt update
-sudo apt install apache2 php libapache2-mod-php php-mysql mariadb-server
-sudo systemctl start apache2
-sudo systemctl start mariadb
-```
+Aktifkan Realtime Database → Mode "Test" (bebas baca/tulis sementara)
 
-#### b. Setup Database
-1. Login ke MySQL:
-   ```bash
-   mysql -u root -p
-   ```
-2. Buat database dan import file `database_setup.sql`:
-   ```sql
-   CREATE DATABASE nama_database;
-   USE nama_database;
-   SOURCE /path/ke/database_setup.sql;
-   ```
-3. Edit file `db.php` dan sesuaikan nama database, username, dan password.
+Salin konfigurasi dari halaman Project Settings → Tab General
 
-#### c. Jalankan Web Server
-**Opsi 1: PHP Built-in (untuk development)**
-```bash
-cd /path/ke/CMSMonitoringProject
-php -S localhost:8000
-```
-Akses di browser: [http://localhost:8000](http://localhost:8000)
+js
+Salin
+Edit
+// Contoh konfigurasi
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "your-app.firebaseapp.com",
+  databaseURL: "https://your-app.firebaseio.com",
+  projectId: "your-app",
+  storageBucket: "your-app.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+3. Edit Kode
+Buka index.html
 
-**Opsi 2: Apache/Nginx**
-- Copy semua file ke folder web server, misal `/var/www/html/`
-- Akses via browser sesuai alamat server
+Paste konfigurasi Firebase ke bagian <script> firebaseConfig
 
-## Catatan
-- Tidak perlu XAMPP, cukup PHP dan MySQL/MariaDB.
-- Untuk production, disarankan menggunakan Apache/Nginx.
-- Jika ada error koneksi database, cek konfigurasi di `db.php`.
+Sesuaikan jika perlu dengan struktur database (projects/)
 
-## Struktur File
-- `index.php` : Halaman utama
-- `add_project.php` : Tambah project
-- `edit_project.php` : Edit project
-- `delete_project.php` : Hapus project
-- `db.php` : Koneksi database
-- `database_setup.sql` : Struktur database
-- `style.css` : Style tampilan
-- `user.php` : (opsional, jika ada fitur user)
+4. Jalankan di Browser
+Buka file index.html langsung di browser (double click atau via Live Server)
+
+Struktur File
+graphql
+Salin
+Edit
+CMSMonitoring/
+├── index.html         # Halaman utama (menampilkan data)
+├── firebase.js        # Koneksi dan CRUD Firebase
+├── style.css          # Tampilan UI
+└── README.md          # Dokumentasi ini
+Catatan
+Tidak perlu XAMPP, PHP, atau MySQL.
+
+Semua data tersimpan dan dikelola langsung melalui Firebase.
+
+Untuk hosting, bisa pakai Firebase Hosting atau Netlify.
+
+Lisensi
+Open source, bebas dikembangkan.
+
+yaml
+Salin
+Edit
+
+---
+
+Jika kamu ingin langsung saya buatkan file `README.md` di folder lokal atau ingin format markdown + copy-paste CLI siap pakai (misalnya buat deploy ke Firebase Hosting), tinggal bilang!
