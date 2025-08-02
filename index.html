@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitoring Project CMS</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-md-12 col-sm-12">
+        <div class="card shadow-lg mt-5">
+          <div class="card-header text-center">
+            <h3>Project Monitoring CMS</h3>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>No</th>
+                    <th class="text-left">Nama Project</th>
+                    <th>Nama Tim Awal</th>
+                    <th>Kontak Tim Awal</th>
+                    <th>Nama Tim Lanjutan</th>
+                    <th>Kontak Tim Lanjutan</th>
+                    <th>Status</th>
+                    <th>Google Drive Link</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="projectTableBody">
+                  <!-- Data dari Firebase akan dimasukkan di sini -->
+                </tbody>
+              </table>
+            </div>
+            <div class="text-right">
+              <a href="add_project.html" class="btn btn-success mt-3 btn-custom">
+                <i class="fas fa-plus"></i> Tambah Project
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase CDN & Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+
+    const firebaseConfig = {};
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    const tableBody = document.getElementById("projectTableBody");
+    const projectsRef = ref(database, 'projects');
+
+    onValue(projectsRef, (snapshot) => {
+      tableBody.innerHTML = ""; // kosongkan dulu
+      let no = 1;
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const data = childSnapshot.val();
+          const id = childSnapshot.key;
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+            <td>${no++}</td>
+            <td class="text-left">${data.project_name || ""}</td>
+            <td>${data.initial_team_name || ""}</td>
+            <td>${data.initial_team_contact || ""}</td>
+            <td>${data.followup_team_name || ""}</td>
+            <td>${data.followup_team_contact || ""}</td>
+            <td>${data.status_project || ""}</td>
+            <td><a href="${data.google_drive_link || '#'}" target="_blank" class="btn btn-info btn-sm btn-custom">
+                  <i class="fas fa-link"></i> Lihat Project
+                </a></td>
+            <td class="action-buttons">
+              <a href="edit_project.html?id=${id}" class="btn btn-primary btn-sm btn-custom">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <a href="#" class="btn btn-danger btn-sm btn-custom" onclick="deleteProject('${id}')">
+                <i class="fas fa-trash"></i> Hapus
+              </a>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } else {
+        tableBody.innerHTML = "<tr><td colspan='9' class='text-center'>Tidak ada data</td></tr>";
+      }
+    });
+
+    window.deleteProject = function (id) {
+      if (confirm("Apakah Anda yakin ingin menghapus project ini?")) {
+        import("https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js").then(({ getDatabase, ref, remove }) => {
+          const db = getDatabase();
+          remove(ref(db, 'projects/' + id)).then(() => {
+            alert("Project berhasil dihapus.");
+          }).catch((error) => {
+            console.error("Gagal menghapus:", error);
+            alert("Terjadi kesalahan.");
+          });
+        });
+      }
+    };
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.table thead {
+    background-color: hsl(18, 100%, 50%);
+    color: white;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 15px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.btn-custom {
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-primary {
+    background-color: rgb(0, 123, 255);
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.card-header {
+    background-color: #ff5100;
+    color: white;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.table td a {
+    text-decoration: none;
+    color: white;
+}
+
+.card {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container-fluid {
+    padding: 30px;
+}
+
+h3 {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+.table td {
+    font-size: 14px;
+}
+
+.btn-sm {
+    font-size: 0.875rem;
+}

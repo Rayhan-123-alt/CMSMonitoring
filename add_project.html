@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tambah Project</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card mt-5">
+          <div class="card-header bg-primary text-white">
+            <h3 class="text-center">Tambah Project Baru</h3>
+          </div>
+          <div class="card-body">
+            <form id="addProjectForm">
+              <div class="form-group">
+                <label for="project_name">Nama Project</label>
+                <input type="text" class="form-control" id="project_name" name="project_name" required>
+              </div>
+              <div class="form-group">
+                <label for="initial_team_name">Nama Tim Awal</label>
+                <input type="text" class="form-control" id="initial_team_name" name="initial_team_name" required>
+              </div>
+              <div class="form-group">
+                <label for="initial_team_contact">Kontak Tim Awal</label>
+                <input type="text" class="form-control" id="initial_team_contact" name="initial_team_contact" required>
+              </div>
+              <div class="form-group">
+                <label for="followup_team_name">Nama Tim Lanjutan</label>
+                <input type="text" class="form-control" id="followup_team_name" name="followup_team_name" required>
+              </div>
+              <div class="form-group">
+                <label for="followup_team_contact">Kontak Tim Lanjutan</label>
+                <input type="text" class="form-control" id="followup_team_contact" name="followup_team_contact" required>
+              </div>
+              <div class="form-group">
+                <label for="status_project">Status</label>
+                <input type="text" class="form-control" id="status_project" name="status_project" required>
+              </div>
+              <div class="form-group">
+                <label for="google_drive_link">Link Google Drive</label>
+                <input type="url" class="form-control" id="google_drive_link" name="google_drive_link" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Simpan</button>
+              <a href="index.html" class="btn btn-secondary ml-2">Kembali</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK & Simpan Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+
+    const firebaseConfig = {};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const form = document.getElementById("addProjectForm");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const newRef = push(ref(db, "projects"));
+      const id = newRef.key;
+
+      const data = {
+        project_name: document.getElementById("project_name").value,
+        initial_team_name: document.getElementById("initial_team_name").value,
+        initial_team_contact: document.getElementById("initial_team_contact").value,
+        followup_team_name: document.getElementById("followup_team_name").value,
+        followup_team_contact: document.getElementById("followup_team_contact").value,
+        status_project: document.getElementById("status_project").value,
+        google_drive_link: document.getElementById("google_drive_link").value,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+
+      try {
+        await set(newRef, data);
+        alert("Project berhasil ditambahkan!");
+        window.location.href = "index.html";
+      } catch (err) {
+        alert("Gagal menyimpan project.");
+        console.error(err);
+      }
+    });
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
